@@ -23,6 +23,10 @@ class Config(BaseModel):
     shells: dict[SlashCommand, Shell]
     default_commands: DefaultCommands = DefaultCommands()
 
+    @property
+    def custom_commands(self) -> list[str]:
+        return list(self.shells.keys())
+
 
 def load_config(path: str = "config.json") -> Config:
     with open(path, "r") as file:
