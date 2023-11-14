@@ -15,6 +15,7 @@ class Shell(BaseModel):
     shell: str
     send_output: bool = False
     output_message: str = "Done!"
+    loading_message: str = "Processing..."
 
 
 class Config(BaseModel):
