@@ -3,7 +3,8 @@ from typing import Annotated
 from annotated_types import Predicate
 from pydantic import BaseModel, Field
 
-SlashCommand = Annotated[str, Predicate(lambda x: x.startswith("/") and "/" not in x[1:])]
+defaults = ["/help"]
+SlashCommand = Annotated[str, Predicate(lambda x: x.startswith("/") and "/" not in x[1:] and x not in defaults)]
 
 
 class DefaultCommands(BaseModel):
