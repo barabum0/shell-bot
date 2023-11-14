@@ -1,3 +1,4 @@
+import json
 from typing import Annotated
 from annotated_types import Predicate
 from pydantic import BaseModel, Field
@@ -20,3 +21,10 @@ class Config(BaseModel):
     whitelisted_chat_ids: list[int] = []
     shells: dict[SlashCommand, Shell]
     default_commands: DefaultCommands = DefaultCommands()
+
+
+def load_config(path: str = "config.json") -> Config:
+    with open(path, "r") as file:
+        config = Config(**json.load(file))
+
+    return config
