@@ -17,6 +17,7 @@ class Shell(BaseModel):
     output_message: str = "Done!"
     loading_message: str = "Processing..."
     description: str = "Some script"
+    need_confirmation: bool = False
 
 
 class Config(BaseModel):

@@ -7,7 +7,8 @@
       "send_output": true,
       "output_message": "Done, here is your root directory:",
       "loading_message": "Processing\\.\\.\\.",
-      "description": "Get contents of the root directory"
+      "description": "Get contents of the root directory",
+      "need_confirmation": true
     }
   },
   "default_commands": {
