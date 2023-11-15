@@ -4,7 +4,7 @@ from aiogram import Router, F
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, BufferedInputFile
 
-from main import config
+from services.config import config
 from services.routers import escape_markdown
 
 router = Router()
@@ -14,7 +14,7 @@ router = Router()
 async def custom_command(message: Message) -> None:
     command = config.shells.get(message.text)
 
-    m = await message.answer(command.loading_message)
+    m = await message.reply(command.loading_message)
 
     result = os.popen(command.shell).read()
     output = f"{command.output_message}"
