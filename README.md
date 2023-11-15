@@ -12,6 +12,8 @@ python main.py
 Config is a `config.json` file.
 
 Here is an example:
+![This config in an actual bot](https://github.com/barabum0/shell-bot/blob/main/example-recording.gif?raw=true)
+
 ```json
 {
   "bot_token": "1234567890:AAAAAAAAAAAAAAAASOMETOKENAAAAAAAA",
@@ -39,7 +41,6 @@ Here is an example:
   }
 }
 ```
-![This config in an actual bot](https://i.imgur.com/rlgkrHT.mp4)
 
 ### Config insides
 
