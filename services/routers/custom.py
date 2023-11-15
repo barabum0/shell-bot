@@ -49,7 +49,7 @@ async def custom_command(message: Message = None, confirmed: bool = False, confi
         await m.edit_text(output_with_result)
     except TelegramBadRequest:
         await m.delete()
-        await message.reply_document(document=BufferedInputFile(result.encode("utf-8"), filename="output.txt"), caption=output)
+        await m.reply_document(document=BufferedInputFile(result.encode("utf-8"), filename="output.txt"), caption=output)
 
 
 @router.callback_query(F.data.startswith(f"confirm_"))
