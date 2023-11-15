@@ -13,6 +13,9 @@ router = Router()
 
 @router.message(F.text.in_(config.custom_commands))
 async def custom_command(message: Message = None, confirmed: bool = False, confirmation_message: Message | None = None, confirmation_command: str | None = None) -> None:
+    if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
+        return
+
     if not confirmation_command:
         command_text = regex.match("(?P<command>/[^@ ]*)", message.text).group("command")
     else:
@@ -51,6 +54,9 @@ async def custom_command(message: Message = None, confirmed: bool = False, confi
 
 @router.callback_query(F.data.startswith(f"confirm_"))
 async def confirm_command(callback_query: CallbackQuery):
+    if config.whitelisted_chat_ids and callback_query.chat.id not in config.whitelisted_chat_ids:
+        return
+
     _, choice, *command = callback_query.data.split("_")
 
     command = "_".join(command)
