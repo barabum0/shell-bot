@@ -1,8 +1,9 @@
 import os
 
+import regex
 from aiogram import Router, F
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import Message, BufferedInputFile
+from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
 from services.config import config
 from services.routers import escape_markdown
@@ -11,10 +12,26 @@ router = Router()
 
 
 @router.message(F.text.in_(config.custom_commands))
-async def custom_command(message: Message) -> None:
-    command = config.shells.get(message.text)
+async def custom_command(message: Message = None, confirmed: bool = False, confirmation_message: Message | None = None, confirmation_command: str | None = None) -> None:
+    if not confirmation_command:
+        command_text = regex.match("(?P<command>/[^@ ]*)", message.text).group("command")
+    else:
+        command_text = confirmation_command
+    command = config.shells.get(command_text)
 
-    m = await message.reply(command.loading_message)
+    if command.need_confirmation and not confirmed:
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[[
+            InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes_{command_text}"),
+            InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no_{command_text}")
+        ]])
+
+        await message.reply(f"*Are you sure you want to run *`{message.text}`*?*", reply_markup=keyboard)
+        return
+    elif command.need_confirmation and confirmed:
+        m = confirmation_message
+        await m.edit_text(command.loading_message)
+    else:
+        m = await message.reply(command.loading_message)
 
     result = os.popen(command.shell).read()
     output = f"{command.output_message}"
@@ -30,3 +47,16 @@ async def custom_command(message: Message) -> None:
     except TelegramBadRequest:
         await m.delete()
         await message.reply_document(document=BufferedInputFile(result.encode("utf-8"), filename="output.txt"), caption=output)
+
+
+@router.callback_query(F.data.startswith(f"confirm_"))
+async def confirm_command(callback_query: CallbackQuery):
+    _, choice, *command = callback_query.data.split("_")
+
+    command = "_".join(command)
+    if choice == "no":
+        await callback_query.message.delete()
+        return
+
+    if choice == "yes":
+        return await custom_command(confirmed=True, confirmation_message=callback_query.message, confirmation_command=command)
