@@ -5,6 +5,7 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, BufferedInputFile
 
 from main import config
+from services.routers import escape_markdown
 
 router = Router()
 
@@ -17,6 +18,8 @@ async def custom_command(message: Message) -> None:
 
     result = os.popen(command.shell).read()
     output = f"{command.output_message}"
+
+    result = escape_markdown(result)
     if command.send_output:
         output_with_result = f"{output}\n\n```shell\n{result}\n```"
     else:
