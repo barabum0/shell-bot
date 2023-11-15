@@ -1,3 +1,4 @@
 aiogram>=3
 pydantic>=2
 regex
+loguru
