@@ -2,4 +2,8 @@ __pycache__
 venv/
 *.pyo
 *.pyd
+config.json
+Dockerfile
+example-recording.gif
+config_example.json
 .Python
