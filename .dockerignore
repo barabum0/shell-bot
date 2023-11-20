@@ -1,9 +1,0 @@
-__pycache__
-venv/
-*.pyo
-*.pyd
-config/config.json
-Dockerfile
-example-recording.gif
-config_example.json
-.Python
