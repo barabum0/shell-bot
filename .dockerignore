@@ -2,7 +2,7 @@ __pycache__
 venv/
 *.pyo
 *.pyd
-config.json
+config/config.json
 Dockerfile
 example-recording.gif
 config_example.json
