@@ -8,16 +8,16 @@ from services.routers import custom, default
 
 
 async def setup() -> tuple[Bot, Dispatcher]:
-    config = load_config()
-    bot = Bot(token=config.bot_token, parse_mode="MarkdownV2")
-    dispatcher = Dispatcher(config=config)
+    _config = load_config()
+    _bot = Bot(token=_config.bot_token, parse_mode="MarkdownV2")
+    _dispatcher = Dispatcher(config=_config)
 
-    routers = [
+    _routers = [
         custom.router,
         default.router
     ]
-    dispatcher.include_routers(*routers)
-    return bot, dispatcher
+    _dispatcher.include_routers(*_routers)
+    return _bot, _dispatcher
 
 
 if __name__ == '__main__':
