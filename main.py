@@ -8,7 +8,7 @@ from services.config import load_config
 from services.routers import custom, default
 
 
-async def setup(config_path: str) -> tuple[Bot, Dispatcher]:
+def setup(config_path: str) -> tuple[Bot, Dispatcher]:
     _config = load_config(config_path)
     _bot = Bot(token=_config.bot_token, parse_mode="MarkdownV2")
     _dispatcher = Dispatcher(config=_config)
@@ -26,7 +26,7 @@ async def setup(config_path: str) -> tuple[Bot, Dispatcher]:
 def main(config):
     logger.info("Loading config from {config}...", config=config)
     logger.info("Starting bot...")
-    bot, dispatcher = asyncio.run(setup(config))
+    bot, dispatcher = setup(config)
     dispatcher.run_polling(bot)
     logger.info("Stopped!")
 
