@@ -24,6 +24,7 @@ async def setup(config_path: str) -> tuple[Bot, Dispatcher]:
 @click.command()
 @click.option('--config', default='config.json', help='Path to the configuration file.', type=click.Path(exists=True, dir_okay=False))
 def main(config):
+    logger.info("Loading config from {config}...", config=config)
     logger.info("Starting bot...")
     bot, dispatcher = asyncio.run(setup(config))
     dispatcher.run_polling(bot)
