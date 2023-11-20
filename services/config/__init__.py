@@ -36,6 +36,3 @@ def load_config(path: str = "config.json") -> Config:
         config = Config(**json.load(file))
 
     return config
-
-
-config = load_config()

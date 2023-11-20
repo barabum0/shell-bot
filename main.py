@@ -3,11 +3,12 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from loguru import logger
 
-from services.config import config
+from services.config import load_config
 from services.routers import custom, default
 
+config = load_config()
 bot = Bot(token=config.bot_token, parse_mode="MarkdownV2")
-dispatcher = Dispatcher()
+dispatcher = Dispatcher(config=config)
 
 
 async def setup() -> None:

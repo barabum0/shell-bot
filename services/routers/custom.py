@@ -5,14 +5,14 @@ from aiogram import Router, F
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
-from services.config import config
+from services.config import Config
 from services.routers import escape_markdown
 
 router = Router()
 
 
-@router.message(F.text.in_(config.custom_commands))
-async def custom_command(message: Message = None, confirmed: bool = False, confirmation_message: Message | None = None, confirmation_command: str | None = None) -> None:
+@router.message(F.text.in_(F.config.custom_commands))
+async def custom_command(config: Config, message: Message = None, confirmed: bool = False, confirmation_message: Message | None = None, confirmation_command: str | None = None) -> None:
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         return
 
@@ -53,7 +53,7 @@ async def custom_command(message: Message = None, confirmed: bool = False, confi
 
 
 @router.callback_query(F.data.startswith(f"confirm_"))
-async def confirm_command(callback_query: CallbackQuery):
+async def confirm_command(callback_query: CallbackQuery, config: Config):
     if config.whitelisted_chat_ids and callback_query.chat.id not in config.whitelisted_chat_ids:
         return
 
