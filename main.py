@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 from loguru import logger
 
 from services.config import load_config
-from services.routers import custom, default
+from services.routers import custom, default, service
 
 
 def setup(config_path: str) -> tuple[Bot, Dispatcher]:
@@ -15,7 +15,8 @@ def setup(config_path: str) -> tuple[Bot, Dispatcher]:
 
     _routers = [
         custom.router,
-        default.router
+        default.router,
+        service.router
     ]
     _dispatcher.include_routers(*_routers)
     return _bot, _dispatcher
