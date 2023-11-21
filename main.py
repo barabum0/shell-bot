@@ -1,5 +1,3 @@
-import asyncio
-
 import click
 from aiogram import Bot, Dispatcher
 from loguru import logger
