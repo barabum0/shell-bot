@@ -1,30 +1,21 @@
-from typing import Optional, Type, Any
+from typing import Any, Callable, Awaitable
 
-from aiogram.client.session.middlewares.base import BaseRequestMiddleware, NextRequestMiddlewareType
-from aiogram.methods import TelegramMethod
-from aiogram.methods.base import TelegramType, Response
+from aiogram import BaseMiddleware, Bot
+from aiogram.types import Update
 from loguru import logger
 
 
-class RequestLogging(BaseRequestMiddleware):
-    def __init__(self, ignore_methods: Optional[list[Type[TelegramMethod[Any]]]] = None):
+class UpdateLogging(BaseMiddleware):
+    def __init__(self):
         """
-        Middleware for logging outgoing requests
-
-        :param ignore_methods: methods to ignore in logging middleware
+        Middleware for logging updates
         """
-        self.ignore_methods = ignore_methods if ignore_methods else []
 
     async def __call__(
         self,
-        make_request: NextRequestMiddlewareType[TelegramType],
-        bot: "Bot",
-        method: TelegramMethod[TelegramType],
-    ) -> Response[TelegramType]:
-        if type(method) not in self.ignore_methods:
-            logger.info(
-                "Request with method={method} by bot id={bot_id}",
-                method=type(method).__name__,
-                bot_id=bot.id,
-            )
-        return await make_request(bot, method)
+        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
+        event: Update,
+        data: dict[str, Any]
+    ) -> Any:
+        logger.info("Update with id{update_id}", update_id=event.update_id)
+        return await handler(event, data)
