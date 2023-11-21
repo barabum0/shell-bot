@@ -6,13 +6,17 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from loguru import logger
 
-from services.config import Config
+from services.config import Config, defaults
 from services.routers import escape_markdown
 
 router = Router()
 
 
-@router.message(F.text.in_(F.config.custom_commands))
+@router.message(
+    F.func(
+        lambda message: message.text.startswith("/") and not any(message.text.startswith(d) for d in defaults)
+    )
+)
 async def custom_command(config: Config, message: Message = None, confirmed: bool = False, confirmation_message: Message | None = None, confirmation_command: str | None = None) -> None:
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("{chat_id} not in whitelisted chats", chat_id=message.chat.id)
