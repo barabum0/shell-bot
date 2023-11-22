@@ -17,7 +17,12 @@ router = Router()
         lambda message: message.text.startswith("/") and not any(message.text.startswith(d) for d in defaults)
     )
 )
-async def custom_command(config: Config, message: Message = None, confirmed: bool = False, confirmation_message: Message | None = None, confirmation_command: str | None = None) -> None:
+async def custom_command(
+        message: Message = None,
+        config: Config = None,
+        confirmed: bool = False,
+        confirmation_message: Message = None,
+        confirmation_command: str = None) -> None:
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("{chat_id} not in whitelisted chats", chat_id=message.chat.id)
         return
@@ -71,4 +76,6 @@ async def confirm_command(callback_query: CallbackQuery, config: Config):
         return
 
     if choice == "yes":
-        return await custom_command(confirmed=True, confirmation_message=callback_query.message, confirmation_command=command)
+        return await custom_command(confirmed=True,
+                                    confirmation_message=callback_query.message,
+                                    confirmation_command=command, config=config)
