@@ -1,7 +1,7 @@
 import os
 
 import regex
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from loguru import logger
@@ -22,10 +22,16 @@ async def custom_command(
         config: Config = None,
         confirmed: bool = False,
         confirmation_message: Message = None,
+        bot: Bot = None,
         confirmation_command: str = None) -> None:
     if message and config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("{chat_id} not in whitelisted chats", chat_id=message.chat.id)
         return
+    if message and message.chat.type != "private" and not confirmation_command:
+        me = await bot.get_me()
+        if not message.text.endswith(f"@{me.username}"):
+            logger.error("Not mentioned the bot")
+            return
 
     if not confirmation_command:
         command_text = regex.match("(?P<command>/[^@ ]*)", message.text).group("command")
