@@ -4,16 +4,14 @@ from loguru import logger
 
 from services.config import load_config
 from services.middlewares.log import UpdateLogging
-from services.middlewares.parameter import ParamMiddleware
 from services.routers import custom, default, service
 
 
 def setup(config_path: str) -> tuple[Bot, Dispatcher]:
     _config = load_config(config_path)
     _bot = Bot(token=_config.bot_token, parse_mode="MarkdownV2")
-    _dispatcher = Dispatcher()
+    _dispatcher = Dispatcher(config=_config)
     _dispatcher.update.middleware(UpdateLogging())
-    _dispatcher.update.middleware(ParamMiddleware("config", _config))
 
     _routers = [
         custom.router,
