@@ -5,12 +5,14 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton
 from loguru import logger
 
-from services.config import Config
+from services.config import Config, defaults
 
 router = Router()
 
 
-@router.message(F.text.startswith("/"))
+@router.message(F.func(
+        lambda message: message.text.startswith("/") and not any(message.text.startswith(d) for d in defaults)
+))
 async def custom_command(message: Message, config: Config, bot: Bot) -> None:
     # Check if chat is whitelisted and mention check for non-private chats is skipped for simplicity
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
@@ -55,4 +57,3 @@ async def confirm_command(callback_query, config: Config, bot: Bot) -> None:
         message = callback_query.message
         setattr(message, 'is_confirmed', True)
         await custom_command(message, config, bot)
-        
