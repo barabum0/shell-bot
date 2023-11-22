@@ -20,7 +20,12 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
         return
 
     # Extract command text
-    command_text = re.match(r"/[^@\s\W]+", message.text).group()
+    command_text = re.match(r"/[^@\s\W]+", message.text)
+    if not command_text:
+        logger.error("\"{text}\" is not a valid command", text=message.text)
+        return
+
+    command_text = command_text.group()
     command = config.shells.get(command_text)
 
     # Handle command confirmation if needed
