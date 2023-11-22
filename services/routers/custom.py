@@ -65,7 +65,7 @@ async def custom_command(
 
 @router.callback_query(F.data.startswith(f"confirm_"))
 async def confirm_command(callback_query: CallbackQuery, config: Config):
-    if config.whitelisted_chat_ids and callback_query.chat.id not in config.whitelisted_chat_ids:
+    if config.whitelisted_chat_ids and callback_query.message.chat.id not in config.whitelisted_chat_ids:
         return
 
     _, choice, *command = callback_query.data.split("_")
