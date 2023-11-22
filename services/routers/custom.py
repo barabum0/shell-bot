@@ -13,7 +13,7 @@ router = Router()
 @router.message(F.func(
         lambda message: message.text.startswith("/") and not any(message.text.startswith(d) for d in defaults)
 ))
-async def custom_command(message: Message, config: Config, bot: Bot) -> None:
+async def custom_command(message: Message, config: Config, bot: Bot, is_confirmed: bool = False) -> None:
     # Check if chat is whitelisted and mention check for non-private chats is skipped for simplicity
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("Chat {chat_id} not in whitelisted chats", chat_id=message.chat.id)
@@ -24,7 +24,7 @@ async def custom_command(message: Message, config: Config, bot: Bot) -> None:
     command = config.shells.get(command_text)
 
     # Handle command confirmation if needed
-    if command.need_confirmation and not hasattr(message, 'is_confirmed'):
+    if command.need_confirmation and not is_confirmed:
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes_{command_text}"),
              InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no_{command_text}")]
@@ -55,5 +55,4 @@ async def confirm_command(callback_query, config: Config, bot: Bot) -> None:
 
     if choice == "yes":
         message = callback_query.message
-        setattr(message, 'is_confirmed', True)
-        await custom_command(message, config, bot)
+        await custom_command(message, config, bot, is_confirmed=True)
