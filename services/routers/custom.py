@@ -23,7 +23,7 @@ async def custom_command(
         confirmed: bool = False,
         confirmation_message: Message = None,
         confirmation_command: str = None) -> None:
-    if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
+    if message and config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("{chat_id} not in whitelisted chats", chat_id=message.chat.id)
         return
 
