@@ -19,6 +19,11 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
         logger.error("Chat {chat_id} not in whitelisted chats", chat_id=message.chat.id)
         return
 
+    if message.chat.type != "private" and not is_confirmed:
+        me = await bot.get_me()
+        if not message.text.endswith(f"@{me.username}"):
+            logger.warning("")
+
     # Extract command text
     command_text = re.match(r"/[^@\s\W]+", message.text)
     if not command_text:

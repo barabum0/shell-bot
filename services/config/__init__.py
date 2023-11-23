@@ -23,6 +23,7 @@ class Shell(BaseModel):
 class Config(BaseModel):
     bot_token: str
     whitelisted_chat_ids: list[int] = []
+    prevent_unmentioned_commands_in_groups: bool = True
     shells: dict[SlashCommand, Shell]
     default_commands: DefaultCommands = DefaultCommands()
 

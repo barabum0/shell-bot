@@ -1,6 +1,7 @@
 {
   "bot_token": "1234567890:AAAAAAAAAAAAAAAASOMETOKENAAAAAAAA",
   "whitelisted_chat_ids": [],
+  "prevent_unmentioned_commands_in_groups": true,
   "shells": {
     "/get_dir": {
       "shell": "ls /",
