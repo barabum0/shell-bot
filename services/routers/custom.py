@@ -25,6 +25,8 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
         logger.error("\"{text}\" is not a valid command", text=message.text)
         return
 
+    logger.info("command text: {}".format(command_text.group()))
+
     command_text = command_text.group()
     command = config.shells.get(command_text)
 
@@ -34,7 +36,7 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
             [InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes_{command_text}"),
              InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no_{command_text}")]
         ])
-        await message.reply(f"Are you sure you want to run `{message.text}`?", reply_markup=keyboard)
+        await message.reply(f"Are you sure you want to run `{command_text}`?", reply_markup=keyboard)
         return
 
     # Execute the command
@@ -55,9 +57,13 @@ async def confirm_command(callback_query, config: Config, bot: Bot) -> None:
     if config.whitelisted_chat_ids and callback_query.message.chat.id not in config.whitelisted_chat_ids:
         return
 
-    choice, command_text = callback_query.data.split("_")[1:3]
+    _, choice, *command_text = callback_query.data.split("_")
+    command_text = "_".join(command_text)
     await callback_query.message.delete()
 
     if choice == "yes":
         message = callback_query.message
+        md = message.dict()
+        md.pop("text")
+        message = Message(text=command_text, **md)
         await custom_command(message, config, bot, is_confirmed=True)
