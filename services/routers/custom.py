@@ -1,7 +1,7 @@
 import os
 import re
-from aiogram import Router, F, Bot
-from aiogram.exceptions import TelegramBadRequest
+
+from aiogram import Router, F, Bot, exceptions
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton
 from loguru import logger
 
@@ -53,8 +53,8 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
 
     try:
         await bot.send_message(message.chat.id, output_with_result, parse_mode='Markdown')
-    except TelegramBadRequest:
-        await bot.send_document(message.chat.id, BufferedInputFile(result.encode(), "output.txt"), caption=output_with_result)
+    except exceptions.TelegramBadRequest:
+        await bot.send_document(message.chat.id, BufferedInputFile(result.encode(), "output.txt"), caption=command.output_message)
 
 
 @router.callback_query(F.data.startswith("confirm_"))
