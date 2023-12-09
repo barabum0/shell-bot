@@ -1,58 +1,50 @@
-# ShellBot
-### Telegram bot that will run commands in your shell
+<div align="center">
 
-## Quick start
-```shell
+# ShellBot
+
+![GitHub stars](https://img.shields.io/github/stars/barabum0/shell-bot)
+![GitHub forks](https://img.shields.io/github/forks/barabum0/shell-bot)
+![GitHub issues](https://img.shields.io/github/issues/barabum0/shell-bot)
+![GitHub license](https://img.shields.io/github/license/barabum0/shell-bot)
+
+</div>
+
+## About 🤖
+
+ShellBot is a Telegram bot designed to run commands in a shell environment. It allows users to execute predefined shell commands through a Telegram interface, making it a versatile tool for remote command execution.
+
+<div align="center">
+    <img src="https://github.com/barabum0/shell-bot/blob/main/example-recording.gif?raw=true" width="50%" height="50%">
+</div>
+
+## Installation 🛠️
+
+To install ShellBot, clone the repository and install the required dependencies:
+
+```bash
+git clone https://github.com/barabum0/shell-bot.git
+cd shell-bot
 pip install -r requirements.txt
-# configuring config.json...
+```
+
+## Usage 🚀
+
+1. Create a `config.json` file based on the `config_example.json`.
+2. Add your Telegram bot token and other configuration details in `config.json`.
+3. Run the bot using:
+
+```bash
 python main.py
 ```
 
-## Configuration
-Config is a `config.json` file.
+## Troubleshooting 🔍
 
-Here is an example:
-![This config in an actual bot](https://github.com/barabum0/shell-bot/blob/main/example-recording.gif?raw=true)
+If you encounter any issues while using ShellBot, please check the [GitHub Issues](https://github.com/barabum0/shell-bot/issues) page for similar problems or to open a new issue.
 
-```json
-{
-  "bot_token": "1234567890:AAAAAAAAAAAAAAAASOMETOKENAAAAAAAA",
-  "whitelisted_chat_ids": [],
-  "shells": {
-    "/get_root_dir": {
-      "shell": "ls /",
-      "send_output": true,
-      "output_message": "Done, here is your root directory:",
-      "loading_message": "Processing\\.\\.\\.",
-      "description": "Get contents of the root directory",
-      "need_confirmation": false
-    },
-    "/update_backend": {
-      "shell": "echo \"🔮 Imagine this is a backend update command...\"",
-      "send_output": true,
-      "output_message": "Your backend was just updated\\!",
-      "loading_message": "Updating\\.\\.\\.",
-      "description": "Update backend",
-      "need_confirmation": true
-    }
-  },
-  "default_commands": {
-    "/help": true
-  }
-}
-```
+## Contribution 🤝
 
-### Config insides
+Contributions are welcome. Please fork the repository, make your changes, and submit a pull request.
 
-- `bot_token` - Your telegram bot token
-- `whitelisted_chat_ids` - Chat IDs where bot will work. Everywhere if empty
-- `shells` - A list of your commands. Key is a command and value is an object with this parameters:
-  - `shell` - Command. (`ls`, `echo "asdasd"`, etc.)
-  - `send_output` - boolean. Send output of the command?
-  - `output_message` - Message that will be shown after command execution
-  - `loading_message` - Message that will be shown while command execution
-  - `description` - Description of the command that will be shown in `/help`
-  - `need_confirmation` - boolean. Execution needs confirmation?
-- `default_commands` - Enable / Disable default commands. Currently there is only one - `/help`
+## License 📄
 
-**Note that `output_message`, `loading_message` and `description` are markdown strings so they should be escaped.**
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
