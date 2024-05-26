@@ -38,14 +38,14 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
     # Handle command confirmation if needed
     if command.need_confirmation and not is_confirmed:
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes_{command_text}"),
-             InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no_{command_text}")]
+            [InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes_{message.text}"),
+             InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no_{message.text}")]
         ])
         await message.reply(f"Are you sure you want to run `{command_text}`?", reply_markup=keyboard)
         return
 
     # Execute the command
-    result = os.popen(f"{command.shell} {message.text.split(' ', maxsplit=1)[1]}".strip()).read().strip()
+    result = os.popen(f"{command.shell} {message.text.split(' ', maxsplit=1)[-1]}".strip()).read().strip()
     if command.send_output:
         output_with_result = f"{command.output_message}\n\n```\n{result}\n```"
     else:
@@ -62,8 +62,7 @@ async def confirm_command(callback_query, config: Config, bot: Bot) -> None:
     if config.whitelisted_chat_ids and callback_query.message.chat.id not in config.whitelisted_chat_ids:
         return
 
-    _, choice, *command_text = callback_query.data.split("_")
-    command_text = "_".join(command_text)
+    _, choice, command_text = callback_query.data.split("_", maxsplit=2)
     await callback_query.message.delete()
 
     if choice == "yes":
