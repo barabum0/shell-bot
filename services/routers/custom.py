@@ -2,6 +2,7 @@ import os
 import re
 
 from aiogram import Router, F, Bot, exceptions
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton
 from loguru import logger
 
@@ -13,7 +14,7 @@ router = Router()
 @router.message(F.func(
         lambda message: message.text.startswith("/") and not any(message.text.startswith(d) for d in defaults)
 ))
-async def custom_command(message: Message, config: Config, bot: Bot, is_confirmed: bool = False) -> None:
+async def custom_command(message: Message, config: Config, bot: Bot, state: FSMContext, is_confirmed: bool = False) -> None:
     # Check if chat is whitelisted and mention check for non-private chats is skipped for simplicity
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("Chat {chat_id} not in whitelisted chats", chat_id=message.chat.id)
@@ -38,9 +39,10 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
     # Handle command confirmation if needed
     if command.need_confirmation and not is_confirmed:
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes_{message.text}"),
-             InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no_{message.text}")]
+            [InlineKeyboardButton(text="✅ Yes", callback_data=f"confirm_yes"),
+             InlineKeyboardButton(text="⛔️ No", callback_data=f"confirm_no")]
         ])
+        await state.set_data({"original_message": message.text})
         await message.reply(f"Are you sure you want to run `{command_text}`?", reply_markup=keyboard)
         return
 
@@ -58,16 +60,18 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
 
 
 @router.callback_query(F.data.startswith("confirm_"))
-async def confirm_command(callback_query, config: Config, bot: Bot) -> None:
+async def confirm_command(callback_query, config: Config, bot: Bot, state: FSMContext) -> None:
     if config.whitelisted_chat_ids and callback_query.message.chat.id not in config.whitelisted_chat_ids:
         return
 
-    _, choice, command_text = callback_query.data.split("_", maxsplit=2)
+    _, choice = callback_query.data.split("_", maxsplit=1)
     await callback_query.message.delete()
+
+    data = await state.get_data()
 
     if choice == "yes":
         message = callback_query.message
         md = message.dict()
         md.pop("text")
-        message = Message(text=command_text, **md)
+        message = Message(text=data.get("original_message"), **md)
         await custom_command(message, config, bot, is_confirmed=True)
