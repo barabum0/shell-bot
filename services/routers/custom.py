@@ -21,7 +21,7 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
 
     if config.prevent_unmentioned_commands_in_groups and message.chat.type != "private" and not is_confirmed:
         me = await bot.get_me()
-        if not message.text.endswith(f"@{me.username}"):
+        if not message.text.split(' ', maxsplit=1)[0].endswith(f"@{me.username}"):
             return
 
     # Extract command text
