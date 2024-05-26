@@ -45,7 +45,7 @@ async def custom_command(message: Message, config: Config, bot: Bot, is_confirme
         return
 
     # Execute the command
-    result = os.popen(command.shell).read().strip()
+    result = os.popen(f"{command.shell} {message.text.split(' ', maxsplit=1)[1]}".strip()).read().strip()
     if command.send_output:
         output_with_result = f"{command.output_message}\n\n```\n{result}\n```"
     else:
