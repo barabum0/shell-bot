@@ -74,4 +74,4 @@ async def confirm_command(callback_query, config: Config, bot: Bot, state: FSMCo
         md = message.dict()
         md.pop("text")
         message = Message(text=data.get("original_message"), **md)
-        await custom_command(message, config, bot, is_confirmed=True)
+        await custom_command(message, config, bot, state, is_confirmed=True)
