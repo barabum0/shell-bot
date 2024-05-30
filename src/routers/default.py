@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message
 from loguru import logger
 
-from services.config import Config
+from src.config import Config
 
 router = Router()
 

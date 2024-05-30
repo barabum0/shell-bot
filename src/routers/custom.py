@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton
 from loguru import logger
 
-from services.config import Config, defaults
+from src.config import Config, defaults
 
 router = Router()
 
