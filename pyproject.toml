@@ -24,6 +24,9 @@ pre-commit = "^3.7.1"
 [tool.poetry.scripts]
 shellbot = "main:main"
 
+[project.scripts]
+shellbot = "main:main"
+
 [tool.black]
 line-length = 120
 target-version = ['py312']
