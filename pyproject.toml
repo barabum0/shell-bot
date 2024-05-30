@@ -1,0 +1,39 @@
+[tool.poetry]
+package-mode = false
+name = "shell-bot"
+version = "1.0.0"
+description = "A Telegram bot to run preset commands in shell"
+authors = ["sushka <r.m.poltorabatko@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiogram = "^3.6.0"
+pydantic = "^2.7.2"
+regex = "^2024.5.15"
+loguru = "^0.7.2"
+click = "^8.1.7"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+mypy = "^1.10.0"
+isort = "^5.13.2"
+pre-commit = "^3.7.1"
+
+[tool.poetry.scripts]
+shellbot = "main:main"
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+
+[tool.isort]
+profile = "black"
+src_paths = ["."]
+
+[tool.mypy]
+python_version = "3.12"
+disallow_untyped_defs = true
+ignore_missing_imports = true
