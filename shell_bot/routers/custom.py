@@ -12,7 +12,7 @@ from aiogram.types import (
 )
 from loguru import logger
 
-from src.config import Config, defaults
+from shell_bot.config import Config, defaults
 
 router = Router()
 

@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.types import Message
 from loguru import logger
 
-from src.config import Config
+from shell_bot.config import Config
 
 router = Router()
 

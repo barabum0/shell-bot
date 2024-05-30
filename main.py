@@ -2,9 +2,9 @@ import click
 from aiogram import Bot, Dispatcher
 from loguru import logger
 
-from src.config import load_config
-from src.middlewares.log import UpdateLogging
-from src.routers import custom, default, service
+from shell_bot.config import load_config
+from shell_bot.middlewares.log import UpdateLogging
+from shell_bot.routers import custom, default, service
 
 
 def setup(config_path: str) -> tuple[Bot, Dispatcher]:

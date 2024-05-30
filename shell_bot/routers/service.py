@@ -1,6 +1,6 @@
 from aiogram import Bot, Router
 
-from src.config import Config
+from shell_bot.config import Config
 
 router = Router()
 

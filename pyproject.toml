@@ -6,7 +6,6 @@ description = "A Telegram bot to run preset commands in shell"
 authors = ["sushka <r.m.poltorabatko@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
