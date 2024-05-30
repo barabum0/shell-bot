@@ -28,7 +28,7 @@ To install ShellBot, clone the repository and install the required dependencies:
 ```bash
 git clone https://github.com/barabum0/shell-bot.git
 cd shell-bot
-pip install -r requirements.txt
+poetry install
 ```
 
 ## Usage 🚀
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 3. Run the bot using:
 
 ```bash
-python main.py
+poetry run shellbot
 ```
 
 ## Troubleshooting 🔍

@@ -1,5 +1,5 @@
 [tool.poetry]
-package-mode = false
+package-mode = true
 name = "shell-bot"
 version = "1.0.0"
 description = "A Telegram bot to run preset commands in shell"
