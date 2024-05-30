@@ -7,6 +7,10 @@
 ![GitHub issues](https://img.shields.io/github/issues/barabum0/shell-bot)
 ![GitHub license](https://img.shields.io/github/license/barabum0/shell-bot)
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Formatted with: isort](https://img.shields.io/badge/formatted%20with-isort-blue.svg)](https://github.com/psf/black)
+[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+
 </div>
 
 ## About 🤖

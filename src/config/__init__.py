@@ -1,5 +1,6 @@
 import json
 from typing import Annotated
+
 from annotated_types import Predicate
 from pydantic import BaseModel, Field
 
