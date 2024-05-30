@@ -25,7 +25,7 @@ def setup(config_path: str) -> tuple[Bot, Dispatcher]:
     help="Path to the configuration file.",
     type=click.Path(exists=True, dir_okay=False),
 )
-def main(config):
+def main(config: str) -> None:
     logger.info("Loading config from {config}...", config=config)
     logger.info("Starting bot...")
     bot, dispatcher = setup(config)

@@ -5,6 +5,7 @@ from aiogram import Bot, F, Router, exceptions
 from aiogram.fsm.context import FSMContext
 from aiogram.types import (
     BufferedInputFile,
+    CallbackQuery,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
@@ -22,6 +23,8 @@ router = Router()
 async def custom_command(
     message: Message, config: Config, bot: Bot, state: FSMContext, is_confirmed: bool = False
 ) -> None:
+    assert message.text is not None
+
     # Check if chat is whitelisted and mention check for non-private chats is skipped for simplicity
     if config.whitelisted_chat_ids and message.chat.id not in config.whitelisted_chat_ids:
         logger.error("Chat {chat_id} not in whitelisted chats", chat_id=message.chat.id)
@@ -38,10 +41,11 @@ async def custom_command(
         logger.error('"{text}" is not a valid command', text=message.text)
         return
 
-    logger.info("command text: {}".format(command_text.group()))
+    command_text_match = command_text.group()
+    command = config.shells.get(command_text_match)
+    assert command is not None
 
-    command_text = command_text.group()
-    command = config.shells.get(command_text)
+    logger.info("command text: {}".format(command_text_match))
 
     # Handle command confirmation if needed
     if command.need_confirmation and not is_confirmed:
@@ -54,8 +58,10 @@ async def custom_command(
             ]
         )
         await state.set_data({"original_message": message.text})
-        await message.reply(f"Are you sure you want to run `{command_text}`?", reply_markup=keyboard)
+        await message.reply(f"Are you sure you want to run `{command_text_match}`?", reply_markup=keyboard)
         return
+
+    assert message.text is not None
 
     # Execute the command
     result = os.popen(f"{command.shell} {message.text.split(' ', maxsplit=1)[-1]}".strip()).read().strip()
@@ -73,7 +79,10 @@ async def custom_command(
 
 
 @router.callback_query(F.data.startswith("confirm_"))
-async def confirm_command(callback_query, config: Config, bot: Bot, state: FSMContext) -> None:
+async def confirm_command(callback_query: CallbackQuery, config: Config, bot: Bot, state: FSMContext) -> None:
+    assert isinstance(callback_query.message, Message)
+    assert callback_query.data is not None
+
     if config.whitelisted_chat_ids and callback_query.message.chat.id not in config.whitelisted_chat_ids:
         return
 
