@@ -8,7 +8,7 @@ license = "MIT"
 readme = "README.md"
 
 [project]
-name = "shell-bot"
+name = "shell_bot"
 version = "1.0.0"
 description = "A Telegram bot to run preset commands in shell"
 authors = [{name = "Roman Poltorabatko", email = "r.m.poltorabatko@gmail.com"}]
