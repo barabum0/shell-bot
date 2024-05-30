@@ -3,9 +3,25 @@ package-mode = true
 name = "shell-bot"
 version = "1.0.0"
 description = "A Telegram bot to run preset commands in shell"
-authors = ["sushka <r.m.poltorabatko@gmail.com>"]
+authors = ["Roman Poltorabatko <r.m.poltorabatko@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+
+[project]
+name = "shell-bot"
+version = "1.0.0"
+description = "A Telegram bot to run preset commands in shell"
+authors = [{name = "Roman Poltorabatko", email = "r.m.poltorabatko@gmail.com"}]
+license = "MIT"
+requires-python = ">=3.12"
+readme = "README.md"
+dependencies = [
+    "aiogram==3.6.0",
+    "pydantic==2.7.2",
+    "regex==2024.5.15",
+    "loguru==0.7.2",
+    "click==8.1.7"
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
