@@ -36,7 +36,7 @@ pipx install git+https://github.com/barabum0/shell-bot@pipx
 3. Run the bot using:
 
 ```bash
-poetry run shellbot
+shellbot
 ```
 
 ## Troubleshooting 🔍
