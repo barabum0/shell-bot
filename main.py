@@ -13,17 +13,18 @@ def setup(config_path: str) -> tuple[Bot, Dispatcher]:
     _dispatcher = Dispatcher(config=_config)
     _dispatcher.update.middleware(UpdateLogging())
 
-    _routers = [
-        custom.router,
-        default.router,
-        service.router
-    ]
+    _routers = [custom.router, default.router, service.router]
     _dispatcher.include_routers(*_routers)
     return _bot, _dispatcher
 
 
 @click.command()
-@click.option('--config', default='config.json', help='Path to the configuration file.', type=click.Path(exists=True, dir_okay=False))
+@click.option(
+    "--config",
+    default="config.json",
+    help="Path to the configuration file.",
+    type=click.Path(exists=True, dir_okay=False),
+)
 def main(config):
     logger.info("Loading config from {config}...", config=config)
     logger.info("Starting bot...")
@@ -32,5 +33,5 @@ def main(config):
     logger.info("Stopped!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-from aiogram import Router, Bot
+from aiogram import Bot, Router
 
 from src.config import Config
 

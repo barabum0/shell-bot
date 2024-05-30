@@ -1,4 +1,4 @@
-from aiogram import Router, F
+from aiogram import F, Router
 from aiogram.types import Message
 from loguru import logger
 
@@ -13,7 +13,5 @@ async def help_command(message: Message, config: Config):
         logger.error("/help was called but is not enabled")
         return
     text = "*Your shells:*\n\n"
-    text += "\n".join(
-        f"\- `{k}`\n{v.description}" for k, v in config.shells.items()
-    )
+    text += "\n".join(f"\- `{k}`\n{v.description}" for k, v in config.shells.items())
     await message.reply(text)
