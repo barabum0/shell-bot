@@ -23,12 +23,10 @@ ShellBot is a Telegram bot designed to run commands in a shell environment. It a
 
 ## Installation 🛠️
 
-To install ShellBot, clone the repository and install the required dependencies:
+To install ShellBot, install it with [`pipx`](https://github.com/pypa/pipx?tab=readme-ov-file):
 
 ```bash
-git clone https://github.com/barabum0/shell-bot.git
-cd shell-bot
-poetry install
+pipx install git+https://github.com/barabum0/shell-bot@pipx
 ```
 
 ## Usage 🚀

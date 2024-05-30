@@ -38,10 +38,10 @@ isort = "^5.13.2"
 pre-commit = "^3.7.1"
 
 [tool.poetry.scripts]
-shellbot = "main:main"
+shellbot = "shell_bot.main:main"
 
 [project.scripts]
-shellbot = "main:main"
+shellbot = "shell_bot.main:main"
 
 [tool.black]
 line-length = 120
