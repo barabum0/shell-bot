@@ -1,0 +1,49 @@
+name: Code linting
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      - name: Run black
+        uses: psf/black@stable
+        with:
+          options: "--check --diff --config pyproject.toml"
+
+  isort:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      - name: Run isort
+        uses: isort/isort-action@master
+
+  mypy:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root --all-extras
+
+      - name: Check
+        run: poetry run mypy . --config-file pyproject.toml
