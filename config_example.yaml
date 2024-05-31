@@ -1,0 +1,13 @@
+bot_token: "1234567890:AAAAAAAAAAAAAAAASOMETOKENAAAAAAAA"
+whitelisted_chat_ids: []
+prevent_unmentioned_commands_in_groups: true
+shells:
+  /get_dir:
+    shell: "ls /"
+    send_output: true
+    output_message: "Done, here is your root directory:"
+    loading_message: "Processing..."
+    description: "Get contents of the root directory"
+    need_confirmation: true
+default_commands:
+  /help: true
