@@ -80,6 +80,8 @@ async def custom_command(
     except subprocess.CalledProcessError as e:
         result_text = e.stderr.strip()
 
+    print(result_text)
+
     if command.send_output:
         output_with_result = f"{command.output_message}\n\n```\n{result_text}\n```"
     else:
