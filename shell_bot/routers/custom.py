@@ -72,6 +72,7 @@ async def custom_command(
             [command.shell] + message.text.split(" ")[1:],
             check=True,
             capture_output=True,
+            text=True,
         )
         result_text = result.stdout.strip()
     except subprocess.CalledProcessError as e:
