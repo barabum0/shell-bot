@@ -68,14 +68,11 @@ async def custom_command(
 
     # Execute the command
     try:
-        result = subprocess.run(
+        result_text = subprocess.check_output(
             [command.shell] + message.text.split(" ")[1:],
-            check=True,
             stderr=subprocess.STDOUT,
-            stdout=subprocess.PIPE,
             text=True,
         )
-        result_text = result.stdout.strip()
     except subprocess.CalledProcessError as e:
         logger.info("Command failed")
         result_text = e.stdout.strip()
