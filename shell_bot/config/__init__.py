@@ -49,7 +49,7 @@ def load_config_yaml(path: str = "config.yaml") -> Config:
 
 
 def load_config(path) -> Config:
-    if path.endswith(".yaml"):
+    if path.endswith(".yaml") or path.endswith(".yml"):
         return load_config_yaml(path)
     elif path.endswith(".json"):
         return load_config_json(path)
