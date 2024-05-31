@@ -97,7 +97,9 @@ async def custom_command(
         await bot.send_message(message.chat.id, output_with_result, parse_mode="Markdown")
     except exceptions.TelegramBadRequest:
         await bot.send_document(
-            message.chat.id, BufferedInputFile(result.encode(), "output.txt"), caption=command.output_message
+            message.chat.id,
+            BufferedInputFile(output_with_result.encode(), "output.txt"),
+            caption=command.output_message,
         )
 
 
