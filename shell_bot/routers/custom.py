@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 
 from aiogram import Bot, F, Router, exceptions
 from aiogram.fsm.context import FSMContext
@@ -63,12 +64,31 @@ async def custom_command(
 
     assert message.text is not None
 
+    loading_message = await bot.send_message(message.chat.id, command.loading_message, parse_mode="Markdown")
+
     # Execute the command
-    result = os.popen(f"{command.shell} {message.text.split(' ', maxsplit=1)[-1]}".strip()).read().strip()
+    try:
+        result = subprocess.run(
+            [f"{command.shell}"] + message.text.split(" ")[1:],
+            shell=True,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        result_text = result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        result_text = e.stderr.strip()
+
     if command.send_output:
-        output_with_result = f"{command.output_message}\n\n```\n{result}\n```"
+        output_with_result = f"{command.output_message}\n\n```\n{result_text}\n```"
     else:
         output_with_result = command.output_message
+
+    try:
+        await loading_message.delete()
+    except:
+        pass
 
     try:
         await bot.send_message(message.chat.id, output_with_result, parse_mode="Markdown")
