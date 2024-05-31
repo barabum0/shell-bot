@@ -75,8 +75,8 @@ async def custom_command(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
+            capture_output=True,
         )
-        result.check_returncode()
         result_text = result.stdout.strip()
     except subprocess.CalledProcessError as e:
         result_text = e.stderr.strip()
