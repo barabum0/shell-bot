@@ -78,7 +78,8 @@ async def custom_command(
         logger.info("Command failed")
         result_text = e.stderr.strip()
 
-    print(result_text)
+    logger.debug(result_text)
+    logger.debug(result.stdout)
 
     if command.send_output:
         if not result_text.strip():
