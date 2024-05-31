@@ -84,6 +84,9 @@ async def custom_command(
     print(result_text)
 
     if command.send_output:
+        if not result_text.strip():
+            result_text = "Command returned an empty output"
+
         output_with_result = f"{command.output_message}\n\n```\n{result_text}\n```"
     else:
         output_with_result = command.output_message
