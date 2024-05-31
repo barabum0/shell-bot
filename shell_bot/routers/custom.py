@@ -72,8 +72,6 @@ async def custom_command(
             [command.shell] + message.text.split(" ")[1:],
             shell=True,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
             text=True,
             capture_output=True,
         )
