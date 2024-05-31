@@ -70,7 +70,6 @@ async def custom_command(
     try:
         result_text = subprocess.check_output(
             [command.shell] + message.text.split(" ")[1:],
-            stderr=subprocess.STDOUT,
             text=True,
         )
     except subprocess.CalledProcessError as e:
