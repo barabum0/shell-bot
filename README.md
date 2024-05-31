@@ -31,12 +31,18 @@ pipx install git+https://github.com/barabum0/shell-bot@pipx
 
 ## Usage 🚀
 
-1. Create a `config.json` file based on the `config_example.json`.
-2. Add your Telegram bot token and other configuration details in `config.json`.
+1. Create a `config.json` or `config.yaml` file based on the `config_example.json` or `config_example.yaml`. The bot can read both formats.
+2. Add your Telegram bot token and other configuration details to the file.
 3. Run the bot using:
 
 ```bash
 shellbot
+```
+
+By default, it will use the `config.json` file, but you can specify another file with:
+
+```bash
+shellbot --config config1.yaml
 ```
 
 ## Troubleshooting 🔍

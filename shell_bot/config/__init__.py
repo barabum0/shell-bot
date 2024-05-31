@@ -1,6 +1,7 @@
 import json
 from typing import Annotated
 
+import yaml
 from annotated_types import Predicate
 from pydantic import BaseModel, Field
 
@@ -33,8 +34,24 @@ class Config(BaseModel):
         return list(self.shells.keys())
 
 
-def load_config(path: str = "config.json") -> Config:
+def load_config_json(path: str = "config.json") -> Config:
     with open(path, "r") as file:
-        config = Config(**json.load(file))
+        config = Config.model_validate(json.load(file))
 
     return config
+
+
+def load_config_yaml(path: str = "config.yaml") -> Config:
+    with open(path, "r") as file:
+        config = Config.model_validate(yaml.safe_load(file))
+
+    return config
+
+
+def load_config(path) -> Config:
+    if path.endswith(".yaml") or path.endswith(".yml"):
+        return load_config_yaml(path)
+    elif path.endswith(".json"):
+        return load_config_json(path)
+
+    raise ValueError("Config should be either .yaml or .json")
