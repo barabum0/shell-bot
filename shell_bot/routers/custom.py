@@ -70,9 +70,7 @@ async def custom_command(
     try:
         result = subprocess.run(
             [command.shell] + message.text.split(" ")[1:],
-            shell=True,
             check=True,
-            text=True,
             capture_output=True,
         )
         result_text = result.stdout.strip()
