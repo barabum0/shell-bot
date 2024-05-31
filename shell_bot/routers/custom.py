@@ -75,10 +75,10 @@ async def custom_command(
             stdout=subprocess.PIPE,
             text=True,
         )
-        result_text = result.stdout.strip() + result.stderr.strip()
+        result_text = f"STDOUT:\n{result.stdout.strip()}``````STDERR:\n{result.stderr.strip()}"
     except subprocess.CalledProcessError as e:
         logger.info("Command failed")
-        result_text = e.stdout.strip()
+        result_text = e.stderr.strip()
 
     logger.debug(result_text)
 
