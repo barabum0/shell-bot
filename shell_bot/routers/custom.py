@@ -75,6 +75,7 @@ async def custom_command(
         )
         result_text = result.stdout.strip()
     except subprocess.CalledProcessError as e:
+        logger.info("Command failed")
         result_text = e.stderr.strip()
 
     print(result_text)
