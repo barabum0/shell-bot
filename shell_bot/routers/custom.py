@@ -75,7 +75,7 @@ async def custom_command(
             stdout=subprocess.PIPE,
             text=True,
         )
-        result_text = f"STDOUT:\n{result.stdout.strip()}``````STDERR:\n{result.stderr.strip()}"
+        result_text = f"stdout\n{result.stdout.strip()}``````stderr\n{result.stderr.strip()}"
     except subprocess.CalledProcessError as e:
         logger.info("Command failed")
         result_text = e.stderr.strip()
@@ -86,7 +86,7 @@ async def custom_command(
         if not result_text.strip():
             result_text = "Command returned an empty output"
 
-        output_with_result = f"{command.output_message}\n\n```\n{result_text}\n```"
+        output_with_result = f"{command.output_message}\n\n```{result_text}\n```"
     else:
         output_with_result = command.output_message
 
